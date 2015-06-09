@@ -47,7 +47,7 @@ class UsersController extends Controller {
 	public function show($username)
 	{
 		$user = User::where('username', $username)->first();
-        return $user;
+        return view('users.show')->with(['user' => $user]);
 	}
 
 	/**
