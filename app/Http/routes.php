@@ -15,6 +15,7 @@
 
 //Route::get('home', 'HomeController@index');
 Route::get('/', 'HomeController@index');
+Route::get('/{username}', 'UsersController@show');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

@@ -7,6 +7,7 @@
 	<title>Twotter</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    {{--{!! FA::css() !!}--}}
 
 	<!-- Fonts -->
 	<link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
