@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\User;
+use App\Tweet;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -47,7 +48,8 @@ class UsersController extends Controller {
 	public function show($username)
 	{
 		$user = User::where('username', $username)->first();
-        return view('users.show')->with(['user' => $user]);
+        $tweets = $user->tweets;
+        return view('users.show')->with(['user' => $user, 'tweets' => $tweets]);
 	}
 
 	/**

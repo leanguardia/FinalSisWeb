@@ -13,8 +13,16 @@
 
 //Route::get('/', 'WelcomeController@index');
 
-Route::get('home', 'HomeController@index');
+//Route::get('home', 'HomeController@index');
+
+Route::group(['middleware' => 'auth'], function()
+{
+    Route::get('/', 'HomeController@index');
+});
+
 Route::get('/', 'HomeController@index');
+Route::get('/home', 'UsersController@index');
+Route::post('/{username}', 'TweetsController@store');
 Route::get('/{username}', 'UsersController@show');
 
 Route::controllers([
