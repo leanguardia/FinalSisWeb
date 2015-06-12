@@ -6231,3 +6231,16 @@ label,
 .checkbox label {
   font-weight: 300;
 }
+
+.nav-tweet{
+    color: #ffffff;
+    background-color: rgba(49, 195, 243, 0.58);
+}
+
+.light-blue-back {
+    background-color: rgba(49, 195, 243, 0.32);
+}
+
+.profile-box{
+    margin-right: 5%;
+}

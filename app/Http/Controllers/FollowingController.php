@@ -1,13 +1,11 @@
 <?php namespace App\Http\Controllers;
 
-use App\User;
-use App\Tweet;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Auth;
+
 use Illuminate\Http\Request;
 
-class UsersController extends Controller {
+class FollowingController extends Controller {
 
 	/**
 	 * Display a listing of the resource.
@@ -16,13 +14,7 @@ class UsersController extends Controller {
 	 */
 	public function index()
 	{
-		if(Auth::check()){
-            $user = Auth::user();
-            return view('users.show')->with(['user' => $user, 'tweets' => $user->tweets]);
-        }
-        else{
-            return view('auth.login');
-        }
+		//
 	}
 
 	/**
@@ -51,11 +43,9 @@ class UsersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($username)
+	public function show($id)
 	{
-		$user = User::where('username', $username)->first();
-        $tweets = $user->tweets;
-        return view('users.show')->with(['user' => $user, 'tweets' => $tweets]);
+		//
 	}
 
 	/**

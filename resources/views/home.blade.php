@@ -8,7 +8,9 @@
 				<div class="panel-heading">Home</div>
 
 				<div class="panel-body">
-					You are logged in!
+					Welcome to tweeter.
+                    <br><br><br>
+                    <a href="/" class="btn btn-default"> Go to profile</a>
 				</div>
 			</div>
 		</div>

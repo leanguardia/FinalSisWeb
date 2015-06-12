@@ -40,7 +40,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     public function following(){
-        return $this->hasMany('App\Followings');
+        return $this->hasMany('App\Following');
     }
 
 }

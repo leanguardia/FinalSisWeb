@@ -20,10 +20,13 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/', 'HomeController@index');
 });
 
-Route::get('/', 'HomeController@index');
-Route::get('/home', 'UsersController@index');
+Route::get('/', 'UsersController@index');
+Route::get('/home', 'HomeController@index');
 Route::post('/{username}', 'TweetsController@store');
+Route::post('/follow/{username}', 'FollowersController@store');
 Route::get('/{username}', 'UsersController@show');
+
+//Route::get('/{something}', 'HomeController@unknown');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
