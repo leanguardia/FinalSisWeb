@@ -6244,3 +6244,8 @@ label,
 .profile-box{
     margin-right: 5%;
 }
+
+body{
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}

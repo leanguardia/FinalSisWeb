@@ -3,4 +3,6 @@
 .env
 
 .idea
-.sqlite
+
+*.sqlite
+
