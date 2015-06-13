@@ -19,11 +19,11 @@ class TweetsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store($username, Request $request)
+	public function store(Request $request)
 	{
         $input = $request::all();
         Tweet::create($input);
-        return redirect('/' . $username);
+        return $input;
 	}
 
 	public function show($id)

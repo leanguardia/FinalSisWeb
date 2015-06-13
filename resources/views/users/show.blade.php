@@ -34,7 +34,7 @@
     <br>
     @if(Auth::check() and $user->id == Auth::id())
         <div class="panel panel-default">
-            <div class="panel-body">
+            <div class="panel-body" id="tweet-form">
                 {!! Form::open(['url' => '/'.$user->username]) !!}
                 <div class="form-group">
                     {!! Form::text('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?", 'id' => 'tweetfield')) !!}
@@ -51,50 +51,68 @@
                         <button type="submit" class="btn btn-primary form-control"><i class="fa fa-pencil-square-o" style="margin-top: 4px; margin-left:-4px; float: left;"></i>&nbsp;Tweet</button>
                     </div>
                 </div>
-                </form>
+                {!! Form::close() !!}
             </div>
         </div>
     @endif
+    <div id="tweets-panel">
+        @foreach($tweets as $tweet)
+            <div class="panel panel-default">
+                {{--<div class="panel-heading">Tweet</div>--}}
+                <div class="panel-body">
+                    <text>{{ $tweet->content }}</text>
+                </div>
 
-    @foreach($tweets as $tweet)
-        <div class="panel panel-default">
-            {{--<div class="panel-heading">Tweet</div>--}}
-            <div class="panel-body">
-                <text>{{ $tweet->content }}</text>
-            </div>
-
-            <div class="barra">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
-            @if (Auth::check() && Auth::id() != $tweet->user_id)
-                @if  (!$tweet->hasLikeFrom(Auth::id()))
-                    {!! Form::open(['url'=>'likes']) !!}
-                    {!! Form::hidden('tweet_id',$tweet->id) !!}
-                    {!! Form::hidden('user_id',Auth::user()->id) !!}
-                    <button type="submit" class="marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$tweet->likes->count() }}</button>
-                    {!! Form::close() !!}
-                @else
-                    <button class="btn-like marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$tweet->likes->count() }}</button>
+                <div class="barra">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
+                @if (Auth::check() && Auth::id() != $tweet->user_id)
+                    @if  (!$tweet->hasLikeFrom(Auth::id()))
+                        {!! Form::open(['url'=>'likes']) !!}
+                        {!! Form::hidden('tweet_id',$tweet->id) !!}
+                        {!! Form::hidden('user_id',Auth::user()->id) !!}
+                        <button type="submit" class="marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$tweet->likes->count() }}</button>
+                        {!! Form::close() !!}
+                    @else
+                        <button class="btn-like marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$tweet->likes->count() }}</button>
+                    @endif
                 @endif
-            @endif
 
-        </div>
-    @endforeach
+            </div>
+        @endforeach
+    </div>
 </div>
 
 <div class="col-md-1" class="pad20">
-    @if(Auth::check() && Auth::id() != $user->id && !Auth::user()->following()->where('following', $user->id)->first() )
-        {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
-        {!! Form::hidden('follower', Auth::id()) !!}
-        {!! Form::hidden('user_id', $user->id) !!}
-            <button type="submit" class="btn btn-lg btn-default"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
-        {!! Form::close() !!}
-    @endif
-
+    <div id="follow-form">
+        @if(Auth::check() && Auth::id() != $user->id && !Auth::user()->following()->where('following', $user->id)->first() )
+            {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
+            {!! Form::hidden('follower', Auth::id()) !!}
+            {!! Form::hidden('user_id', $user->id) !!}
+                <button type="submit" class="btn btn-lg btn-default"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
+            {!! Form::close() !!}
+        @endif
+    </div>
 </div>
 <div class="col-md-2"></div>
 <div class="col-md-1">
     <script type="text/javascript">
         $(document).ready(function(){
-            $( '#follow-form' ).on( 'submit', function(e){
+
+            $('#tweet-form').on('submit', function(e){
+                e.preventDefault();
+                var content = $(this).find('input[name=content]').val();
+                var user_id = $(this).find('input[name=user_id]').val();
+                $.ajax({
+                    type : 'POST',
+                    url : '/tweet',
+                    data : { content : content, user_id : user_id },
+                    success: function(msg){
+                        var tweet = '<div class="panel panel-default"><div class="panel-body"><text>'+ msg.content +'</text></div><div class="barra">&nbsp;&nbsp;{{ "@" . $user->username }}</div>@if (Auth::check() && Auth::id() != $tweet->user_id)@if  (!$tweet->hasLikeFrom(Auth::id())){!! Form::open(["url"=>"likes"]) !!}{!! Form::hidden("tweet_id",$tweet->id) !!}{!! Form::hidden("user_id",Auth::user()->id) !!}<button type="submit" class="marg btn btn-default">{!!FA::icon("star")!!} &nbsp{{$tweet->likes->count() }}</button>{!! Form::close() !!} @else <button class="btn-like marg btn btn-default">{!!FA::icon("star")!!} &nbsp{{$tweet->likes->count() }}</button> @endif @endif</div>';
+                        $('#tweets-panel').append(tweet);
+                    }
+                });
+            });
+
+            $('#follow-form').on('submit', function(e){
                 e.preventDefault();
                 var follower = $(this).find('input[name=follower]').val();
                 var user_id = $(this).find('input[name=user_id]').val();
@@ -108,7 +126,6 @@
                         obj.text((parseInt(obj.text()) + 1));
                     }
                 });
-
             });
         });
     </script>
