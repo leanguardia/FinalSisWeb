@@ -16,7 +16,7 @@ $(document).ready(function(){
 
     $('#tweetfield').keyup(function(){
         var len = $(this).val().length;
-        $('#charNum').text(len);
+        $('#charNum').text(140 - len);
     });
 
 

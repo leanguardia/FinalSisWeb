@@ -38,8 +38,8 @@
                 <div class="panel-body" id="tweet-form">
                     {!! Form::open(['url' => '/'.$user->username]) !!}
                     <div class="form-group">
-                        {!! Form::text('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?", 'id' => 'tweetfield')) !!}
-                        <p id="charNum">0</p>
+                        {!! Form::textarea('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?", 'id' => 'tweetfield')) !!}
+                        <p id="charNum">140</p>
                     </div>
 
                     <div class="form-group">
