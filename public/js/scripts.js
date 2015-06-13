@@ -3,4 +3,8 @@ $(document).ready(function(){
         alert("You've already liked this tweet!");
     });
 
+    $('#tweetfield').focus(function(){
+        
+    });
+
 });
