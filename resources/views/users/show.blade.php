@@ -9,26 +9,26 @@
         <div class="col-md-2">
             TWEETS
             <br>
-            <strong style="color: #0083b3">&nbsp;{{ $tweets->count() }}</strong>
+            <strong style="color: #0083b3" ><p id="tweet-count">{{ $tweets->count() }}</p></strong>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-2">
             FOLLOWING
             <br>
-            <strong style="color: #0083b3">&nbsp;{{ $user->following->count() }}</strong>
+            <strong style="color: #0083b3" ><p id="following-count">{{ $user->following->count() }}</p></strong>
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-3">
             FOLLOWERS
             <br>
-            <strong style="color: #0083b3">&nbsp;{{ $user->followers->count() }}</strong>
+            <strong style="color: #0083b3" ><p id="followers-count">{{ $user->followers->count() }}</p></strong>
         </div>
     </div>
 </div>
 
 {{--<div class="col-md-1">--}}
 
-</div>
+{{--</div>--}}
 
 <div class="col-md-4 contenTweets">
     <br>
@@ -62,6 +62,7 @@
             <div class="panel-body">
                 <text>{{ $tweet->content }}</text>
             </div>
+
             <div class="barra">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
             @if (Auth::check() && Auth::id() != $tweet->user_id)
                 @if  (!$tweet->hasLikeFrom(Auth::id()))
@@ -87,8 +88,30 @@
             <button type="submit" class="btn btn-lg btn-default"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
         {!! Form::close() !!}
     @endif
+
 </div>
 <div class="col-md-2"></div>
-<div class="col-md-1"></div>
+<div class="col-md-1">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $( '#follow-form' ).on( 'submit', function(e){
+                e.preventDefault();
+                var follower = $(this).find('input[name=follower]').val();
+                var user_id = $(this).find('input[name=user_id]').val();
+                $.ajax({
+                    type : 'POST',
+                    url : '/follow/' + '{{ $user->username }}',
+                    data : { follower : follower, user_id : user_id },
+                    success: function(msg){
+                        $('#follow-button').css('display', 'none');
+                        var obj = $('#following-count');
+                        obj.text((parseInt(obj.text()) + 1));
+                    }
+                });
+
+            });
+        });
+    </script>
+</div>
 
 @endsection

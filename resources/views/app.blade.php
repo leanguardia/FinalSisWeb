@@ -4,6 +4,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}"" />
 	<title>Tweetter</title>
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
@@ -20,6 +22,10 @@
 		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
 	<![endif]-->
+
+    <!-- Scripts -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
 </head>
 <body background="images/cloudback.jpg">
 	<nav class="navbar navbar-default nav-tweet">
@@ -56,6 +62,12 @@
 			</div>
 		</div>
 	</nav>
+
+    <script>
+        $.ajaxSetup({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+        });
+    </script>
 
 	@yield('content')
 
