@@ -35,7 +35,7 @@
     @if(Auth::check() and $user->id == Auth::id())
         <div class="panel panel-default">
             <div class="panel-body">
-                <form method="POST" action="http://localhost:8080/{{ $user->username }}" accept-charset="UTF-8"><input name="_token" type="hidden" value="FMOum3nJP7U5Qt1m1u48RDzZOJBPvtbr2iMHZCRq">
+                {!! Form::open(['url' => '/'.$user->username]) !!}
                 <div class="form-group">
                     {!! Form::text('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?")) !!}
                 </div>
