@@ -46,4 +46,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function likes(){
         return $this->hasMany('App\Like');
     }
+
+    public function ownTweetsAndFollowed()
+    {
+        return $tweets = $this->tweets ;
+    }
 }

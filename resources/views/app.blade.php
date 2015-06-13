@@ -31,12 +31,12 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/"  style="color: #FFFFFF;">Tweetter</a>
+				<a class="navbar-brand" href="/home"  style="color: #FFFFFF;">Final Project</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}"  style="color: #FFFFFF;">Home</a></li>
+					<li><a href="/home"  style="color: #FFFFFF;">Home</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -47,6 +47,7 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #FFFFFF;">{{ Auth::user()->username }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
+                                <li><a href="/{{Auth::user()->username}}">User Page</a></li>
 								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
 							</ul>
 						</li>

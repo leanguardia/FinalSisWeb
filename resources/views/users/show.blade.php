@@ -30,7 +30,7 @@
 
 </div>
 
-<div class="col-md-4" style="background-color: #FFFFFF; border-radius: 10px;">
+<div class="col-md-4 contenTweets">
     <br>
     @if(Auth::check() and $user->id == Auth::id())
         <div class="panel panel-default">
