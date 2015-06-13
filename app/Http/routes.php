@@ -24,6 +24,7 @@ Route::post('/likes','LikesController@store');
 Route::get('/', 'UsersController@index');
 Route::get('/home', 'HomeController@index');
 Route::post('/tweet', 'TweetsController@store');
+Route::post('/retweet', 'TweetsController@retweet');
 Route::post('/follow/{username}', 'FollowersController@store');
 Route::get('/{username}', 'UsersController@show');
 

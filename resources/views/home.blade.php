@@ -42,7 +42,7 @@
                             <div class="panel-body">
                                 <text>{{ $user->name .' '. $user->last_name}}</text>
                             </div>
-                            <div class="barra">&nbsp;&nbsp;<a href="/{{$tweet->user->username}}">{{ '@' . $tweet->user->username }}</a></div>
+                            <div class="barra">&nbsp;&nbsp;<a href="/{{$user->username}}">{{ '@' . $user->username }}</a></div>
                         </div>
                     @endforeach
                 </div>

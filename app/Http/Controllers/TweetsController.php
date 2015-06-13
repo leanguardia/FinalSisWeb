@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Tweet;
+//use App\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -19,11 +20,18 @@ class TweetsController extends Controller {
 	 *
 	 * @return Response
 	 */
+
+    public function retweet(Request $request){
+        $input = $request::all();
+        Tweet::create($input);
+        $username = Tweet::find($input['tweet_id'])->user->username;
+        return redirect('/'.$username);
+    }
+
 	public function store(Request $request)
 	{
         $input = $request::all();
         Tweet::create($input);
-//        array_push($input, Tweet::find($input['tweet_id'])->user()->username);
         return $input;
 	}
 

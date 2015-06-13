@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\User;
+use App\Tweet;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 
@@ -30,13 +31,16 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		return User::create([
+		User::create([
 			'name' => $data['name'],
             'email' => $data['email'],
             'last_name' => $data['last_name'],
             'username' => $data['username'],
 			'password' => bcrypt($data['password']),
 		]);
+        $user = User::where('username', $data['username'])->first();
+        Tweet::create(['user_id' => $user->id, 'content' => 'I joined tweeter.']);
+        return $user;
 	}
 
 }

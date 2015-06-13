@@ -49,7 +49,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public function ownTweetsAndFollowed()
     {
-        return $tweets = $this->tweets ;
+        $tweets = $this->tweets;
+        $folls = $this->following;
+        foreach($folls as $fol){
+            $tweets = $tweets->merge(User::find($fol->following)->tweets);
+        }
+        return $tweets;
     }
 
     public function hasRetwitted($tweet_id)
