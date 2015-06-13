@@ -62,17 +62,30 @@
             <div class="panel-body">
                 <text>{{ $tweet->content }}</text>
             </div>
-
-            <div class="barra">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
+            @if (!$tweet->tweet_id)
+                <div class="barra">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
+            @else
+                <div class="barra">&nbsp;&nbsp;{!!FA::icon('retweet')!!}<a href="/{{$tweet->getWriter()}}">&nbsp;{{'@'.$tweet->getWriter()}}</a> </div>
+            @endif
             @if (Auth::check() && Auth::id() != $tweet->user_id)
                 @if  (!$tweet->hasLikeFrom(Auth::id()))
                     {!! Form::open(['url'=>'likes']) !!}
                     {!! Form::hidden('tweet_id',$tweet->id) !!}
                     {!! Form::hidden('user_id',Auth::user()->id) !!}
-                    <button type="submit" class="marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$tweet->likes->count() }}</button>
+                    <button type="submit" class="marg btn btn-default">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
                     {!! Form::close() !!}
                 @else
-                    <button class="btn-like marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$tweet->likes->count() }}</button>
+                    <button class="btn-like marg btn btn-default">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
+                @endif
+                @if  (!Auth::user()->hasRetwitted($tweet->id))
+                    {!! Form::open(['url'=>'tweets']) !!}
+                    {!! Form::hidden('tweet_id',$tweet->id) !!}
+                    {!! Form::hidden('user_id',Auth::user()->id) !!}
+                    {!! Form::hidden('content',$tweet->content) !!}
+                    <button type="submit" class="marg btn btn-default">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
+                    {!! Form::close() !!}
+                @else
+                    <button class="btn-rt marg btn btn-default">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
                 @endif
             @endif
 

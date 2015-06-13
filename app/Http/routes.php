@@ -27,6 +27,7 @@ Route::post('/{username}', 'TweetsController@store');
 Route::post('/follow/{username}', 'FollowersController@store');
 Route::get('/{username}', 'UsersController@show');
 
+
 //Route::get('/{something}', 'HomeController@unknown');
 
 Route::controllers([

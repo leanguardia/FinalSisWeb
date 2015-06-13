@@ -33,4 +33,15 @@ class Tweet extends Model {
         return false;
     }
 
+    public function getRTT()
+    {
+        return Tweet::where('tweet_id',$this->id)->count();
+    }
+
+    public function getWriter()
+    {
+        $user = Tweet::find($this->tweet_id)->user;
+        return $user->username;
+    }
+
 }
