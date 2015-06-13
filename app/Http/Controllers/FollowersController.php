@@ -1,9 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use App\Followers;
+use App\Following;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use Illuminate\Http\Request;
+use Request;
 
 class FollowersController extends Controller {
 
@@ -24,7 +26,7 @@ class FollowersController extends Controller {
 	 */
 	public function create()
 	{
-		//
+        //
 	}
 
 	/**
@@ -32,9 +34,12 @@ class FollowersController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function store($username, Request $request)
 	{
-		//
+        $input = $request::all();
+        Followers::create($input);
+        Following::create(['user_id' => $input['follower'], 'following' => $input['user_id']]);
+        return redirect('/'.$username);
 	}
 
 	/**

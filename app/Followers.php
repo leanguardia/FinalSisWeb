@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Followers extends Model {
 
-    protected $fillable = ['user_id'];
+    protected $fillable = ['user_id', 'follower'];
 
     public function user(){
         return $this->belongsTo('App\User');

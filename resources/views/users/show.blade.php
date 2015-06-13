@@ -37,7 +37,7 @@
             <div class="panel-body">
                 {!! Form::open(['url' => '/'.$user->username]) !!}
                 <div class="form-group">
-                    {!! Form::text('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?")) !!}
+                    {!! Form::text('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?", 'id' => 'tweetfield')) !!}
                 </div>
 
                 <div class="form-group">
@@ -68,8 +68,10 @@
 </div>
 
 <div class="col-md-1" style="padding: 20px">
-    @if(Auth::check() && Auth::id() != $user->id)
-        {!! Form::open() !!}
+    @if(Auth::check() && Auth::id() != $user->id && !Auth::user()->following()->where('following', $user->id)->first() )
+        {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
+        {!! Form::hidden('follower', Auth::id()) !!}
+        {!! Form::hidden('user_id', $user->id) !!}
             <button type="submit" class="btn btn-lg btn-default"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
         {!! Form::close() !!}
     @endif
