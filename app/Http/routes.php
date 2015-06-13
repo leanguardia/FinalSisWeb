@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/', 'HomeController@index');
 });
 
+Route::post('/likes','LikesController@store');
 Route::get('/', 'UsersController@index');
 Route::get('/home', 'HomeController@index');
 Route::post('/{username}', 'TweetsController@store');

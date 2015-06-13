@@ -63,6 +63,19 @@
                 <text>{{ $tweet->content }}</text>
             </div>
             <div style="background-color: rgba(0, 131, 179, 0.38); overflow: hidden">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
+            <ul class="horizontal">
+                <li>
+                    {!! Form::open(['url'=>'likes']) !!}
+                    {!! Form::hidden('tweet_id',$tweet->id) !!}
+                    {!! Form::hidden('user_id',Auth::user()->id) !!}
+
+                    <button type="submit" class="btn btn-default">{!!FA::icon('star')!!}</button>
+                    {!! Form::close() !!}
+                </li>
+                <li>{{$tweet->likes->count() }}</li>
+
+            </ul>
+
         </div>
     @endforeach
 </div>
