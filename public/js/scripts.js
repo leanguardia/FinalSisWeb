@@ -7,4 +7,7 @@ $(document).ready(function(){
         
     });
 
+    $(".btn-rt").click(function(){
+        alert("You've already retwitted this tweet!")
+    });
 });

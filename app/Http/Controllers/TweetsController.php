@@ -23,6 +23,7 @@ class TweetsController extends Controller {
 	{
         $input = $request::all();
         Tweet::create($input);
+//        array_push($input, Tweet::find($input['tweet_id'])->user()->username);
         return $input;
 	}
 

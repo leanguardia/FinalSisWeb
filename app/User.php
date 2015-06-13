@@ -51,4 +51,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $tweets = $this->tweets ;
     }
+
+    public function hasRetwitted($tweet_id)
+    {
+        foreach ($this->tweets as $tweet)
+        {
+            if ($tweet->tweet_id== $tweet_id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }
