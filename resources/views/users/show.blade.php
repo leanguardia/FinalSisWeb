@@ -9,26 +9,26 @@
         <div class="col-md-2">
             TWEETS
             <br>
-            <strong style="color: #0083b3">&nbsp;{{ $tweets->count() }}</strong>
+            <strong style="color: #0083b3" ><p id="tweet-count">{{ $tweets->count() }}</p></strong>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-2">
             FOLLOWING
             <br>
-            <strong style="color: #0083b3">&nbsp;{{ $user->following->count() }}</strong>
+            <strong style="color: #0083b3" ><p id="following-count">{{ $user->following->count() }}</p></strong>
         </div>
         <div class="col-md-2"></div>
         <div class="col-md-3">
             FOLLOWERS
             <br>
-            <strong style="color: #0083b3">&nbsp;{{ $user->followers->count() }}</strong>
+            <strong style="color: #0083b3" ><p id="followers-count">{{ $user->followers->count() }}</p></strong>
         </div>
     </div>
 </div>
 
 {{--<div class="col-md-1">--}}
 
-</div>
+{{--</div>--}}
 
 <div class="col-md-4" style="background-color: #FFFFFF; border-radius: 10px;">
     <br>
@@ -62,21 +62,44 @@
             <div class="panel-body">
                 <text>{{ $tweet->content }}</text>
             </div>
-            <div style="background-color: rgba(0, 131, 179, 0.38); overflow: hidden">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
+            <div style="background-color: rgba(0, 131, 179, 0.38); overflow: hidden">&nbsp;&nbsp;{{ '@' . $tweet->user->username }} &nbsp;&nbsp; {{ $tweet->created_at->format('m/d/Y') }}</div>
         </div>
     @endforeach
 </div>
 
 <div class="col-md-1" style="padding: 20px">
-    @if(Auth::check() && Auth::id() != $user->id && !Auth::user()->following()->where('following', $user->id)->first() )
-        {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
-        {!! Form::hidden('follower', Auth::id()) !!}
-        {!! Form::hidden('user_id', $user->id) !!}
-            <button type="submit" class="btn btn-lg btn-default"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
-        {!! Form::close() !!}
-    @endif
+    <div id="follow-button">
+        @if(Auth::check() && Auth::id() != $user->id && !Auth::user()->following()->where('following', $user->id)->first() )
+            {!! Form::open([ 'url' => '/follow/' . $user->username, 'id' => 'follow-form' ]) !!}
+            {!! Form::hidden('follower', Auth::id()) !!}
+            {!! Form::hidden('user_id', $user->id) !!}
+                <button type="submit" class="btn btn-lg btn-default"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
+            {!! Form::close() !!}
+        @endif
+    </div>
 </div>
 <div class="col-md-2"></div>
-<div class="col-md-1"></div>
+<div class="col-md-1">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $( '#follow-form' ).on( 'submit', function(e){
+                e.preventDefault();
+                var follower = $(this).find('input[name=follower]').val();
+                var user_id = $(this).find('input[name=user_id]').val();
+                $.ajax({
+                    type : 'POST',
+                    url : '/follow/' + '{{ $user->username }}',
+                    data : { follower : follower, user_id : user_id },
+                    success: function(msg){
+                        $('#follow-button').css('display', 'none');
+                        var obj = $('#following-count');
+                        obj.text((parseInt(obj.text()) + 1));
+                    }
+                });
+
+            });
+        });
+    </script>
+</div>
 
 @endsection
