@@ -62,21 +62,33 @@
             <div class="panel-body">
                 <text>{{ $tweet->content }}</text>
             </div>
-            <div style="background-color: rgba(0, 131, 179, 0.38); overflow: hidden">&nbsp;&nbsp;{{ '@' . $tweet->user->username }} &nbsp;&nbsp; {{ $tweet->created_at->format('m/d/Y') }}</div>
+
+            <div class="barra">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
+            @if (Auth::check() && Auth::id() != $tweet->user_id)
+                @if  (!$tweet->hasLikeFrom(Auth::id()))
+                    {!! Form::open(['url'=>'likes']) !!}
+                    {!! Form::hidden('tweet_id',$tweet->id) !!}
+                    {!! Form::hidden('user_id',Auth::user()->id) !!}
+                    <button type="submit" class="marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$tweet->likes->count() }}</button>
+                    {!! Form::close() !!}
+                @else
+                    <button class="btn-like marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$tweet->likes->count() }}</button>
+                @endif
+            @endif
+
         </div>
     @endforeach
 </div>
 
-<div class="col-md-1" style="padding: 20px">
-    <div id="follow-button">
-        @if(Auth::check() && Auth::id() != $user->id && !Auth::user()->following()->where('following', $user->id)->first() )
-            {!! Form::open([ 'url' => '/follow/' . $user->username, 'id' => 'follow-form' ]) !!}
-            {!! Form::hidden('follower', Auth::id()) !!}
-            {!! Form::hidden('user_id', $user->id) !!}
-                <button type="submit" class="btn btn-lg btn-default"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
-            {!! Form::close() !!}
-        @endif
-    </div>
+<div class="col-md-1" class="pad20">
+    @if(Auth::check() && Auth::id() != $user->id && !Auth::user()->following()->where('following', $user->id)->first() )
+        {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
+        {!! Form::hidden('follower', Auth::id()) !!}
+        {!! Form::hidden('user_id', $user->id) !!}
+            <button type="submit" class="btn btn-lg btn-default"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
+        {!! Form::close() !!}
+    @endif
+
 </div>
 <div class="col-md-2"></div>
 <div class="col-md-1">

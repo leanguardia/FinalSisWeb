@@ -1,0 +1,13 @@
+
+.marg{
+    margin: 5px;
+}
+
+.barra{
+    background-color: rgba(0, 131, 179, 0.38);
+    overflow: hidden;
+}
+
+.pad20{
+    padding: 20px;
+ }
