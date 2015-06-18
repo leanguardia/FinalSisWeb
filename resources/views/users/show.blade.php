@@ -70,29 +70,33 @@
                     @else
                         <div class="barra">&nbsp;&nbsp;{!!FA::icon('retweet')!!}<a href="/{{$tweet->getWriter()}}">&nbsp;{{'@'.$tweet->getWriter()}}</a> </div>
                     @endif
-                    @if (Auth::check() && Auth::id() != $tweet->user_id)
-                        @if  (!$tweet->hasLikeFrom(Auth::id()))
-                            {!! Form::open(['url'=>'likes']) !!}
-                            {!! Form::hidden('tweet_id',$tweet->id) !!}
-                            {!! Form::hidden('user_id',Auth::user()->id) !!}
-                             <button type="submit" class="marg btn btn-default" id="repost-form">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
-                            {!! Form::close() !!}
-                        @else
-                             <button class="btn-like marg btn btn-default" id="repost-form">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
-                        @endif
-                    <div id="repost-form">
-                        @if  (!Auth::user()->hasRetwitted($tweet->id))
-                                {!! Form::open(['url'=> 'retweet/' ]) !!}
-                                {!! Form::hidden('tweet_id',$tweet->id) !!}
-                                {!! Form::hidden('user_id',Auth::user()->id) !!}
-                                {!! Form::hidden('content',$tweet->content) !!}
-                                 <button type="submit" class="marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
-                                {!! Form::close() !!}
-                        @else
-                                 <button class="btn-rt marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
-                        @endif
+                    <div class="panel-footer">
+                        <div class="row">
+                            @if (Auth::check() && Auth::id() != $tweet->user_id)
+                                @if  (!$tweet->hasLikeFrom(Auth::id()))
+                                    {!! Form::open(['url'=>'likes']) !!}
+                                    {!! Form::hidden('tweet_id',$tweet->id) !!}
+                                    {!! Form::hidden('user_id',Auth::user()->id) !!}
+                                     <button style="float: left ;" type="submit" class="marg btn btn-default" id="repost-form">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
+                                    {!! Form::close() !!}
+                                @else
+                                     <button style="float: left ;" class="btn-like marg btn btn-default" id="repost-form">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
+                                @endif
+                            <div id="repost-form">
+                                @if  (!Auth::user()->hasRetwitted($tweet->id))
+                                        {!! Form::open(['url'=> 'retweet/' ]) !!}
+                                        {!! Form::hidden('tweet_id',$tweet->id) !!}
+                                        {!! Form::hidden('user_id',Auth::user()->id) !!}
+                                        {!! Form::hidden('content',$tweet->content) !!}
+                                         <button style="float: left ;" type="submit" class="marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
+                                        {!! Form::close() !!}
+                                @else
+                                         <button style="float: left ;" class="btn-rt marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
+                                @endif
+                            </div>
+                            @endif
+                        </div>
                     </div>
-                    @endif
 
                 </div>
             @endforeach
