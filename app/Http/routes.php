@@ -21,6 +21,8 @@ Route::group(['middleware' => 'auth'], function()
 });
 
 Route::post('/likes','LikesController@store');
+Route::get('{username}/followers', 'UsersController@followers');
+Route::get('{username}/following', 'UsersController@following');
 Route::get('/', 'UsersController@index');
 Route::get('/home', 'HomeController@index');
 Route::post('/tweet', 'TweetsController@store');

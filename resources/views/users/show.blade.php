@@ -38,7 +38,7 @@
                 <div class="panel-body" id="tweet-form">
                     {!! Form::open(['url' => '/'.$user->username]) !!}
                     <div class="form-group">
-                        {!! Form::textarea('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?", 'id' => 'tweetfield')) !!}
+                        {!! Form::text('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?", 'id' => 'tweetfield')) !!}
                         <p id="charNum">140</p>
                     </div>
 
@@ -112,6 +112,8 @@
                 <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
                 {!! Form::close() !!}
             @endif
+                <a href="/{{$user->username}}/followers" class="btn btn-lg btn-default">Followers</a>
+                <a href="/{{$user->username}}/following" class="btn btn-lg btn-default">Following</a>
         </div>
     </div>
     <div class="col-md-2"></div>

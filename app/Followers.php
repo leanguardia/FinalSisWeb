@@ -10,4 +10,9 @@ class Followers extends Model {
         return $this->belongsTo('App\User');
     }
 
+    public function getFollower()
+    {
+        return User::find($this->follower);
+    }
+
 }
