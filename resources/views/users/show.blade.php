@@ -126,20 +126,26 @@
 
                 $('#tweet-form').on('submit', function(e){
                     e.preventDefault();
-                    var content = $(this).find('input[name=content]').val();
+                    var content = $('#tweetfield').val();
                     var user_id = $(this).find('input[name=user_id]').val();
+                    alert(content);
                     if(content.length <= 140){
-                        $.ajax({
-                            type : 'POST',
-                            url : '/tweet',
-                            data : { content : content, user_id : user_id },
-                            success: function(msg){
-                                var tweet = '<div class="panel panel-default"><div class="panel-body"><text>'+ msg.content +'</text></div><div class="barra">&nbsp;&nbsp;{{ "@" . $user->username }}</div>@if (Auth::check() && Auth::id() != $tweet->user_id)@if  (!$tweet->hasLikeFrom(Auth::id())){!! Form::open(["url"=>"likes"]) !!}{!! Form::hidden("tweet_id",$tweet->id) !!}{!! Form::hidden("user_id",Auth::user()->id) !!}<button type="submit" class="marg btn btn-default">{!!FA::icon("star")!!} &nbsp{{$tweet->likes->count() }}</button>{!! Form::close() !!} @else <button class="btn-like marg btn btn-default">{!!FA::icon("star")!!} &nbsp{{$tweet->likes->count() }}</button> @endif @endif</div>';
-                                $('#tweets-panel').before(tweet);
-                                $('#tweetfield').val("")
-                                $('#tweet-count').text(parseInt($('#tweet-count').text()) + 1);
-                            }
-                        });
+                        if(content.length > 0){
+                            $.ajax({
+                                type : 'POST',
+                                url : '/tweet',
+                                data : { content : content, user_id : user_id },
+                                success: function(msg){
+                                    var tweet = '<div class="panel panel-default"><div class="panel-body"><text>'+ msg.content +'</text></div><div class="barra">&nbsp;&nbsp;{{ "@" . $user->username }}</div>@if (Auth::check() && Auth::id() != $tweet->user_id)@if  (!$tweet->hasLikeFrom(Auth::id())){!! Form::open(["url"=>"likes"]) !!}{!! Form::hidden("tweet_id",$tweet->id) !!}{!! Form::hidden("user_id",Auth::user()->id) !!}<button type="submit" class="marg btn btn-default">{!!FA::icon("star")!!} &nbsp{{$tweet->likes->count() }}</button>{!! Form::close() !!} @else <button class="btn-like marg btn btn-default">{!!FA::icon("star")!!} &nbsp{{$tweet->likes->count() }}</button> @endif @endif</div>';
+                                    $('#tweets-panel').before(tweet);
+                                    $('#tweetfield').val("")
+                                    $('#tweet-count').text(parseInt($('#tweet-count').text()) + 1);
+                                }
+                            });
+                        }
+                        else{
+                            alert("Tweet must have at least one character.");
+                        }
                     }
                     else{
                         alert('Too many characters, only 140 are tolereded.');

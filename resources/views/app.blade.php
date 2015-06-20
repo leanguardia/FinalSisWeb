@@ -18,8 +18,10 @@
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 	<!--[if lt IE 9]>
-		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>-->
+    {{--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>--}}
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
 
 	<![endif]-->
 
@@ -47,8 +49,6 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					@if (Auth::guest())
-						<li><a href="{{ url('/auth/login') }}"  style="color: #FFFFFF;">Login</a></li>
-						<li><a href="{{ url('/auth/register') }}"  style="color: #FFFFFF;">Register</a></li>
 					@else
                         <li>
                             {!!Form::open(['url'=>'search','method'=>'get','class'=>'form-inline'])!!}
