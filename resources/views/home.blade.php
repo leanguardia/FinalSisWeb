@@ -52,6 +52,47 @@
                                 <text>{{ $user->name .' '. $user->last_name}}</text>
                             </div>
                             <div class="barra">&nbsp;&nbsp;<a href="/{{$user->username}}">{{ '@' . $user->username }}</a></div>
+                            <div class="panel-footer">
+                                @if(Auth::check() && Auth::id() != $user->id && !Auth::user()->following()->where('following', $user->id)->first() )
+                                    <div class="follow-form">
+                                        {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
+                                        {!! Form::hidden('follower', Auth::id()) !!}
+                                        {!! Form::hidden('username', $user->username) !!}
+                                        {!! Form::hidden('user_id', $user->id) !!}
+                                        <button type="submit" class="btn btn-sm btn-default" id="{{ 'follow'.$user->username }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
+                                        {!! Form::close() !!}
+                                    </div>
+
+                                    <div class="unfollow-form" style="display: none">
+                                        {!! Form::open([ 'url' => '/unfollow/' . $user->username ]) !!}
+                                        {!! Form::hidden('follower', Auth::id()) !!}
+                                        {!! Form::hidden('username', $user->username) !!}
+                                        {!! Form::hidden('user_id', $user->id) !!}
+                                        <button type="submit" class="btn btn-sm btn-default" id="{{ 'unfollow'.$user->username }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Unfollow</button>
+                                        {!! Form::close() !!}
+                                    </div>
+                                @else
+                                    @if(Auth::id() != $user->id)
+                                        <div class="follow-form" style="display: none">
+                                            {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
+                                            {!! Form::hidden('follower', Auth::id()) !!}
+                                            {!! Form::hidden('username', $user->username) !!}
+                                            {!! Form::hidden('user_id', $user->id) !!}
+                                            <button type="submit" class="btn btn-sm btn-default" id="{{ 'follow'.$user->username }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
+                                            {!! Form::close() !!}
+                                        </div>
+
+                                        <div class="unfollow-form">
+                                            {!! Form::open([ 'url' => '/unfollow/' . $user->username ]) !!}
+                                            {!! Form::hidden('follower', Auth::id()) !!}
+                                            {!! Form::hidden('username', $user->username) !!}
+                                            {!! Form::hidden('user_id', $user->id) !!}
+                                            <button type="submit" class="btn btn-sm btn-default" id="{{ 'unfollow'.$user->username }}"><i class="fa fa-user"></i>&nbsp;&nbsp;Unfollow</button>
+                                            {!! Form::close() !!}
+                                        </div>
+                                    @endif
+                                @endif
+                            </div>
                         </div>
                     @endforeach
                 </div>

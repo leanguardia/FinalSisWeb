@@ -88,14 +88,14 @@
                                     {!! Form::open(['url'=>'likes']) !!}
                                     {!! Form::hidden('tweet_id',$tweet->id) !!}
                                     {!! Form::hidden('user_id',Auth::user()->id) !!}
-                                     <button style="float: left ;" type="submit" class="marg btn btn-default" id="repost-form">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
+                                     <button style="float: left ;" type="submit" class="marg btn btn-default">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
                                     {!! Form::close() !!}
                                 @else
                                     {!! Form::open(array('route' => array('likes.destroy', $tweet->getLikeId(Auth::user()->id)), 'method' => 'delete')) !!}
                                     <button class="marg btn btn-default" type="submit">Dislike&nbsp;{{$tweet->likes->count()}}</button>
                                     {!! Form::close() !!}
                                 @endif
-                                <div id="repost-form">
+                                <div class="repost-form">
                                     @if  (!Auth::user()->hasRetwitted($tweet->id))
                                             {!! Form::open(['url'=> 'retweet/' ]) !!}
                                             {!! Form::hidden('tweet_id',$tweet->id) !!}
@@ -104,7 +104,7 @@
                                              <button style="float: left ;" type="submit" class="marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
                                             {!! Form::close() !!}
                                     @else
-                                             <button style="float: left ;" class="btn-rt marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
+                                             <button style="float: left ;" class="btn-rt marg btn btn-default disabled retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
                                     @endif
                                 </div>
                                 <div class="input-group input-group-sm">
@@ -145,21 +145,23 @@
                     {!! Form::close() !!}
                 </div>
             @else
-                <div id="follow-form" style="display: none">
-                    {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
-                    {!! Form::hidden('follower', Auth::id()) !!}
-                    {!! Form::hidden('user_id', $user->id) !!}
-                    <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
-                    {!! Form::close() !!}
-                </div>
+                @if(Auth::id() != $user->id)
+                    <div id="follow-form" style="display: none">
+                        {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
+                        {!! Form::hidden('follower', Auth::id()) !!}
+                        {!! Form::hidden('user_id', $user->id) !!}
+                        <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
+                        {!! Form::close() !!}
+                    </div>
 
-                <div id="unfollow-form">
-                    {!! Form::open([ 'url' => '/unfollow/' . $user->username ]) !!}
-                    {!! Form::hidden('follower', Auth::id()) !!}
-                    {!! Form::hidden('user_id', $user->id) !!}
-                    <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Unfollow</button>
-                    {!! Form::close() !!}
-                </div>
+                    <div id="unfollow-form">
+                        {!! Form::open([ 'url' => '/unfollow/' . $user->username ]) !!}
+                        {!! Form::hidden('follower', Auth::id()) !!}
+                        {!! Form::hidden('user_id', $user->id) !!}
+                        <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Unfollow</button>
+                        {!! Form::close() !!}
+                    </div>
+                @endif
             @endif
 
     </div>
@@ -169,87 +171,38 @@
     </div>
     <div class="col-md-1">
         <script type="text/javascript">
-
-            $(document).ready(function(){
-
-                $('#tweet-form').on('submit', function(e){
-                    e.preventDefault();
-                    var content = $('#tweetfield').val();
-                    var user_id = $(this).find('input[name=user_id]').val();
-                    if(content.length <= 140){
-                        if(content.length > 0){
-                            $.ajax({
-                                type : 'POST',
-                                url : '/tweet',
-                                data : { content : content, user_id : user_id, reply: false },
-                                success: function(msg){
-                                    var tweet = '<div class="panel panel-default"><div class="panel-body"><text>'+ msg.content +'</text></div><div class="barra">&nbsp;&nbsp;{{ "@" . $user->username }}</div>@if (Auth::check() && Auth::id() != $tweet->user_id)@if  (!$tweet->hasLikeFrom(Auth::id())){!! Form::open(["url"=>"likes"]) !!}{!! Form::hidden("tweet_id",$tweet->id) !!}{!! Form::hidden("user_id",Auth::user()->id) !!}<button type="submit" class="marg btn btn-default">{!!FA::icon("star")!!} &nbsp{{$tweet->likes->count() }}</button>{!! Form::close() !!} @else <button class="btn-like marg btn btn-default">{!!FA::icon("star")!!} &nbsp{{$tweet->likes->count() }}</button> @endif @endif</div>';
-                                    $('#tweets-panel').before(tweet);
-                                    $('#tweetfield').val("");
-                                    $('#charNum').html("140");
-                                    $('#tweet-count').text(parseInt($('#tweet-count').text()) + 1);
-                                }
-                            });
-                        }
-                        else{
-                            alert("Tweet must have at least one character.");
-                        }
-                    }
-                    else{
-                        alert('Too many characters, only 140 are tolereded.');
+            $('#unfollow-form').on('submit', function(e){
+                e.preventDefault();
+                var follower = $(this).find('input[name=follower]').val();
+                var user_id = $(this).find('input[name=user_id]').val();
+                $.ajax({
+                    type : 'POST',
+                    url : '/unfollow/' + '{{ $user->username }}',
+                    data : { follower : follower, user_id : user_id },
+                    success: function(msg){
+                        $('#follow-button').css('display', 'block');
+                        $('#unfollow-form').css('display', 'none');
+                        var obj = $('#followers-count');
+                        obj.text((parseInt(obj.text()) - 1));
                     }
                 });
+            });
 
-                $('#follow-form').on('submit', function(e){
-                    e.preventDefault();
-                    var follower = $(this).find('input[name=follower]').val();
-                    var user_id = $(this).find('input[name=user_id]').val();
-                    $.ajax({
-                        type : 'POST',
-                        url : '/follow/' + '{{ $user->username }}',
-                        data : { follower : follower, user_id : user_id },
-                        success: function(msg){
-                            $('#follow-button').css('display', 'none');
-                            $('#unfollow-form').css('display', 'block');
-                            var obj = $('#followers-count');
-                            obj.text((parseInt(obj.text()) + 1));
-                        }
-                    });
+            $('#follow-form').on('submit', function(e){
+                e.preventDefault();
+                var follower = $(this).find('input[name=follower]').val();
+                var user_id = $(this).find('input[name=user_id]').val();
+                $.ajax({
+                    type : 'POST',
+                    url : '/follow/' + '{{ $user->username }}',
+                    data : { follower : follower, user_id : user_id },
+                    success: function(msg){
+                        $('#follow-button').css('display', 'none');
+                        $('#unfollow-form').css('display', 'block');
+                        var obj = $('#followers-count');
+                        obj.text((parseInt(obj.text()) + 1));
+                    }
                 });
-
-                $('#unfollow-form').on('submit', function(e){
-                    e.preventDefault();
-                    var follower = $(this).find('input[name=follower]').val();
-                    var user_id = $(this).find('input[name=user_id]').val();
-                    $.ajax({
-                        type : 'POST',
-                        url : '/unfollow/' + '{{ $user->username }}',
-                        data : { follower : follower, user_id : user_id },
-                        success: function(msg){
-                            $('#follow-button').css('display', 'block');
-                            $('#unfollow-form').css('display', 'none');
-                            var obj = $('#followers-count');
-                            obj.text((parseInt(obj.text()) - 1));
-                        }
-                    });
-                });
-
-                {{--$('#repost-form').on('submit', function(e){--}}
-                    {{--e.preventDefault();--}}
-                    {{--alert('works');--}}
-                    {{--var follower = $(this).find('input[name=follower]').val();--}}
-                    {{--var user_id = $(this).find('input[name=user_id]').val();--}}
-                    {{--var tweet_id = $(this).find('input[name=tweet_id]').val();--}}
-                    {{--$.ajax({--}}
-                        {{--type : 'POST',--}}
-                        {{--url : '/tweet/{{ $user->username }}',--}}
-                        {{--data : { content : content, user_id : user_id, tweet_id : tweet_id },--}}
-                        {{--success: function(msg){--}}
-                            {{--alert($('.retweet-count').text());--}}
-                        {{--}--}}
-                    {{--});--}}
-                {{--});--}}
-
             });
         </script>
     </div>

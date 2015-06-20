@@ -14,7 +14,8 @@ class TweetsController extends Controller {
         $input = $request::all();
         Tweet::create($input);
         $username = Tweet::find($input['tweet_id'])->user->username;
-        return redirect('/'.$username);
+        $count = Tweet::where("tweet_id", $input['tweet_id'])->count();
+        return $count;
     }
 
     public function reply(Request $request){

@@ -39,7 +39,8 @@ class FollowersController extends Controller {
         $input = $request::all();
         Followers::create($input);
         Following::create(['user_id' => $input['follower'], 'following' => $input['user_id']]);
-        return redirect('/'.$username);
+//        return redirect('/'.$username);
+        return "done";
 	}
 
 	/**
@@ -86,7 +87,8 @@ class FollowersController extends Controller {
         $input = $request::all();
         Followers::where('follower', (string)$input['follower'])->where('user_id', (string)$input['user_id'])->first()->delete();
         Following::where('following', (string)$input['user_id'])->where('user_id', (string)$input['follower'])->first()->delete();
-        return redirect('/'.$username);
+//        return redirect('/'.$username);
+        return "done";
     }
 
 }
