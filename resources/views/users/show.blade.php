@@ -38,7 +38,7 @@
                 <div class="panel-body" id="tweet-form">
                     {!! Form::open(['url' => '/'.$user->username]) !!}
                     <div class="form-group">
-                        {!! Form::textarea('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?", 'id' => 'tweetfield')) !!}
+                        {!! Form::text('content', '', array('class' => 'form-control', 'placeholder' => "What's happening?", 'id' => 'tweetfield')) !!}
                         <p id="charNum">140</p>
                     </div>
 
@@ -80,7 +80,9 @@
                                      <button style="float: left ;" type="submit" class="marg btn btn-default" id="repost-form">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
                                     {!! Form::close() !!}
                                 @else
-                                     <button style="float: left ;" class="btn-like marg btn btn-default" id="repost-form">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
+                                    {!! Form::open(array('route' => array('likes.destroy', $tweet->getLikeId(Auth::user()->id)), 'method' => 'delete')) !!}
+                                    <button class="marg btn btn-default" type="submit">Dislike&nbsp;{{$tweet->likes->count()}}</button>
+                                    {!! Form::close() !!}
                                 @endif
                             <div id="repost-form">
                                 @if  (!Auth::user()->hasRetwitted($tweet->id))
@@ -112,6 +114,8 @@
                 <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
                 {!! Form::close() !!}
             @endif
+                <a href="/{{$user->username}}/followers" class="btn btn-lg btn-default">Followers</a>
+                <a href="/{{$user->username}}/following" class="btn btn-lg btn-default">Following</a>
         </div>
     </div>
     <div class="col-md-2"></div>

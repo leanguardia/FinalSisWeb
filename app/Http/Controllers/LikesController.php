@@ -15,4 +15,9 @@ class LikesController extends Controller {
         return redirect('/home');
     }
 
+    public function destroy($id)
+    {
+        Like::destroy($id);
+        return redirect('/home');
+    }
 }

@@ -26,32 +26,6 @@ class UsersController extends Controller {
         }
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function show($username)
 	{
 		$user = User::where('username', $username)->first();
@@ -62,34 +36,28 @@ class UsersController extends Controller {
         return view('users.show')->with(['user' => $user, 'tweets' => $tweets]);
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
+    public function followers($username)
+    {
+        $user = User::where('username',$username)->first();
+        return view('users.followers',compact('user'));
+    }
+
+    public function following($username)
+    {
+        $user = User::where('username',$username)->first();
+        return view('users.following',compact('user'));
+    }
+
 	public function edit($id)
 	{
 		//
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function update($id)
 	{
 		//
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function destroy($id)
 	{
 		//
