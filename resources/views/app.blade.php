@@ -21,6 +21,11 @@
     <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>-->
     {{--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>--}}
     <script src="js/jquery.js"></script>
+    <script>
+        $.ajaxSetup({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+        });
+    </script>
     <script src="js/bootstrap.js"></script>
 
 	<![endif]-->
@@ -67,12 +72,6 @@
             </div>
 		</div>
 	</nav>
-
-    <script>
-        $.ajaxSetup({
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
-        });
-    </script>
 
 	@yield('content')
 
