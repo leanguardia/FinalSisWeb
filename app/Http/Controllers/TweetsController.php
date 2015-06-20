@@ -6,26 +6,22 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Request;
+use Auth;
 
 class TweetsController extends Controller {
-
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
 
     public function retweet(Request $request){
         $input = $request::all();
         Tweet::create($input);
         $username = Tweet::find($input['tweet_id'])->user->username;
         return redirect('/'.$username);
+    }
+
+    public function reply(Request $request){
+        $input = $request::all();
+        Tweet::create($input);
+        return redirect('/'.Auth::user()->username);
+        return $input;
     }
 
 	public function store(Request $request)

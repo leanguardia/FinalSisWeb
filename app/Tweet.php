@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tweet extends Model {
 
-    protected $fillable = ['content', 'user_id','tweet_id'];
+    protected $fillable = ['content', 'user_id','tweet_id','reply'];
 
     public function user()
     {
@@ -53,6 +53,11 @@ class Tweet extends Model {
                 return $like->id;
             }
         }
+    }
+
+    public function getRepliedTweet()
+    {
+        return Tweet::find($this->tweet_id);
     }
 
 }

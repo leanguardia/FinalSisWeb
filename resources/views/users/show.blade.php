@@ -61,18 +61,29 @@
         <div id="tweets-panel">
             @foreach($tweets as $tweet)
                 <div class="panel panel-default">
-                    {{--<div class="panel-heading">Tweet</div>--}}
+                    @if ($tweet->reply)
+                        <div class="panel-body">
+                            <text>{{$tweet->getRepliedTweet()->content}}</text>
+                        </div>
+
+                        <div class="barra"><a href="/{{$tweet->getRepliedTweet()->user->username}}">&nbsp;&nbsp;{{'@'.$tweet->getRepliedTweet()->user->username}}</a></div>
+                    @endif
                     <div class="panel-body">
                         <text>{{ $tweet->content }}</text>
                     </div>
-                    @if (!$tweet->tweet_id)
+                    @if (!$tweet->tweet_id )
                         <div class="barra">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
                     @else
-                        <div class="barra">&nbsp;&nbsp;{!!FA::icon('retweet')!!}<a href="/{{$tweet->getWriter()}}">&nbsp;{{'@'.$tweet->getWriter()}}</a> </div>
+                        @if($tweet->reply)
+                                <div class="barra">&nbsp;&nbsp;{!!FA::icon('reply')!!} {{ '@' . $tweet->user->username }} </div>
+                        @else
+                                <div class="barra">&nbsp;&nbsp;{!!FA::icon('retweet')!!} <a href="/{{$tweet->getRepliedTweet()->user->username}}">{{'@'.$tweet->getWriter()}}</a></div>
+                        @endif
                     @endif
-                    <div class="panel-footer">
-                        <div class="row">
-                            @if (Auth::check() && Auth::id() != $tweet->user_id)
+                    @if (Auth::check() && Auth::id() != $tweet->user_id)
+                        <div class="panel-footer">
+                            <div class="form-inline">
+
                                 @if  (!$tweet->hasLikeFrom(Auth::id()))
                                     {!! Form::open(['url'=>'likes']) !!}
                                     {!! Form::hidden('tweet_id',$tweet->id) !!}
@@ -84,22 +95,32 @@
                                     <button class="marg btn btn-default" type="submit">Dislike&nbsp;{{$tweet->likes->count()}}</button>
                                     {!! Form::close() !!}
                                 @endif
-                            <div id="repost-form">
-                                @if  (!Auth::user()->hasRetwitted($tweet->id))
-                                        {!! Form::open(['url'=> 'retweet/' ]) !!}
-                                        {!! Form::hidden('tweet_id',$tweet->id) !!}
-                                        {!! Form::hidden('user_id',Auth::user()->id) !!}
-                                        {!! Form::hidden('content',$tweet->content) !!}
-                                         <button style="float: left ;" type="submit" class="marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
-                                        {!! Form::close() !!}
-                                @else
-                                         <button style="float: left ;" class="btn-rt marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
-                                @endif
-                            </div>
-                            @endif
-                        </div>
-                    </div>
+                                <div id="repost-form">
+                                    @if  (!Auth::user()->hasRetwitted($tweet->id))
+                                            {!! Form::open(['url'=> 'retweet/' ]) !!}
+                                            {!! Form::hidden('tweet_id',$tweet->id) !!}
+                                            {!! Form::hidden('user_id',Auth::user()->id) !!}
+                                            {!! Form::hidden('content',$tweet->content) !!}
+                                             <button style="float: left ;" type="submit" class="marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
+                                            {!! Form::close() !!}
+                                    @else
+                                             <button style="float: left ;" class="btn-rt marg btn btn-default retweet-count">{!!FA::icon('retweet')!!}&nbsp;{{$tweet->getRTT() }}</button>
+                                    @endif
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    {!!Form::open(['url'=>'reply'])!!}
+                                    {!!Form::text('content',null,['placeholder'=>'@'.$tweet->user->username,'class'=>'marg form-control'])!!}
+                                    {!!Form::hidden('user_id',Auth::user()->id)!!}
+                                    {!!Form::hidden('tweet_id',$tweet->id) !!}
+                                    {!!Form::hidden('reply',true)!!}
+                                    <button type="submit" class="marg btn btn-default">{!!FA::icon('reply')!!}&nbsp;</button>
+                                    {!!Form::close()!!}
+                                </div>
 
+                             </div>
+
+                        </div>
+                    @endif
                 </div>
             @endforeach
         </div>
