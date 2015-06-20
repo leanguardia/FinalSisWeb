@@ -39,7 +39,7 @@ class Registrar implements RegistrarContract {
 			'password' => bcrypt($data['password']),
 		]);
         $user = User::where('username', $data['username'])->first();
-        Tweet::create(['user_id' => $user->id, 'content' => 'I joined tweeter.']);
+        Tweet::create(['user_id' => $user->id, 'content' => 'I joined tweeter.', 'reply' => false]);
         return $user;
 	}
 

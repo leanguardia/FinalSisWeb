@@ -60,9 +60,8 @@
                 <div class="panel-heading" style="background-color: rgba(49, 195, 243, 0.58);  color: white;">Register</div>
                 <div class="panel-body light-blue-back">
 
-                    {!! Form::open(['url' => '/auth/register', 'files' => true, 'class' => 'form-horizontal' ]) !!}
-                    {{--<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">--}}
-                        {{--<input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Name</label>
@@ -103,13 +102,6 @@
                             <label class="col-md-4 control-label">Confirm Password</label>
                             <div class="col-md-6">
                                 <input type="password" class="form-control" name="password_confirmation">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Profile Picture</label>
-                            <div class="col-md-6">
-                                {!! Form::file('image', ['class' => 'form-control']) !!}
                             </div>
                         </div>
 

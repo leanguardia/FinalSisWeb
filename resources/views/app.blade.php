@@ -26,8 +26,8 @@
 	<![endif]-->
 
     <!-- Scripts -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    {{--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--}}
+    {{--<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>--}}
 </head>
 <body background="images/cloudback.jpg">
 	<nav class="navbar navbar-default nav-tweet">
@@ -44,7 +44,8 @@
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
-					<li><a href="/home"  style="color: #FFFFFF;">Home</a></li>
+                    <li><a href="/home"  style="color: #FFFFFF;">Home</a></li>
+                    <li><a href="/notifications"  style="color: #FFFFFF;">Notifications</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">

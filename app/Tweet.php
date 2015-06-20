@@ -11,6 +11,21 @@ class Tweet extends Model {
         return $this->belongsTo('App\User');
     }
 
+    public function getTweets(){
+        $tweets = Tweet::where('tweet_id', $this->id)->get();
+        return $tweets;
+    }
+
+    public function getLikes(){
+        $likes = Like::where('tweet_id', $this->id)->get();
+        return $likes;
+    }
+
+    public function getUser(){
+        $user = User::find($this->user_id);
+        return $user;
+    }
+
     public function reposts()
     {
         return $this->hasMany('App\Tweet');

@@ -26,13 +26,20 @@ class UsersController extends Controller {
         }
 	}
 
+    public function notifications(){
+//        $likes = Auth::user()->likes;
+        $tweets = Auth::user()->tweets;
+
+        return view('notifications.show')->with(['tweets' => $tweets]);
+    }
+
 	public function show($username)
 	{
 		$user = User::where('username', $username)->first();
         if(!$user->tweets){
             Tweet::creat(['user_id' => $user->id, 'content' => 'I just register for tweeter.']);
         }
-        $tweets = $user->tweets;
+        $tweets = $user->tweets()->get()->reverse();
         return view('users.show')->with(['user' => $user, 'tweets' => $tweets]);
 	}
 
