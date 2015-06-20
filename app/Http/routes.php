@@ -20,7 +20,9 @@ Route::group(['middleware' => 'auth'], function()
     Route::get('/', 'HomeController@index');
 });
 
-Route::post('/likes','LikesController@store');
+Route::get('/search','SearchsController@results');
+Route::resource('likes','LikesController',['only' => ['store', 'destroy']]);
+
 Route::get('{username}/followers', 'UsersController@followers');
 Route::get('{username}/following', 'UsersController@following');
 Route::get('/', 'UsersController@index');

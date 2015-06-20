@@ -44,4 +44,15 @@ class Tweet extends Model {
         return $user->username;
     }
 
+    public function getLikeId($curr_user_id)
+    {
+        foreach ($this->likes as $like)
+        {
+            if ($like->user_id == $curr_user_id)
+            {
+                return $like->id;
+            }
+        }
+    }
+
 }

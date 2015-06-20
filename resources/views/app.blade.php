@@ -50,6 +50,13 @@
 						<li><a href="{{ url('/auth/login') }}"  style="color: #FFFFFF;">Login</a></li>
 						<li><a href="{{ url('/auth/register') }}"  style="color: #FFFFFF;">Register</a></li>
 					@else
+                        <li>
+                            {!!Form::open(['url'=>'search','method'=>'get','class'=>'form-inline'])!!}
+                                {!!Form::text('text',null,['class'=>'form-control marg'])!!}
+                                <button typ="submit" class="btn btn-default">{!!FA::icon('search')!!}</button>
+                            {!!Form::close()!!}
+                        </li>
+                        <li>&nbsp</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #FFFFFF;">{{ Auth::user()->username }} <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">

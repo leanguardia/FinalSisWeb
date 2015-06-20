@@ -80,7 +80,9 @@
                                      <button style="float: left ;" type="submit" class="marg btn btn-default" id="repost-form">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
                                     {!! Form::close() !!}
                                 @else
-                                     <button style="float: left ;" class="btn-like marg btn btn-default" id="repost-form">{!!FA::icon('star')!!} &nbsp;{{$tweet->likes->count() }}</button>
+                                    {!! Form::open(array('route' => array('likes.destroy', $tweet->getLikeId(Auth::user()->id)), 'method' => 'delete')) !!}
+                                    <button class="marg btn btn-default" type="submit">Dislike&nbsp;{{$tweet->likes->count()}}</button>
+                                    {!! Form::close() !!}
                                 @endif
                             <div id="repost-form">
                                 @if  (!Auth::user()->hasRetwitted($tweet->id))
