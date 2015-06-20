@@ -4,11 +4,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tweet extends Model {
 
-    protected $fillable = ['content', 'user_id','tweet_id','reply'];
+    protected $fillable = ['content', 'user_id','tweet_id','reply','promote'];
 
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function country()
+    {
+        return $this->belongsTo('App\Country');
     }
 
     public function getTweets(){

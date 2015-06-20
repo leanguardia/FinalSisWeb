@@ -22,7 +22,6 @@ class TweetsController extends Controller {
         $input = $request::all();
         Tweet::create($input);
         return redirect('/'.Auth::user()->username);
-        return $input;
     }
 
 	public function store(Request $request)
@@ -31,6 +30,15 @@ class TweetsController extends Controller {
         Tweet::create($input);
         return $input;
 	}
+
+    public function promote($id)
+    {
+
+        $tweet=Tweet::find($id);
+        $tweet->promote = true;
+        $tweet->save();
+        return redirect('/'.Auth::user()->username);
+    }
 
 	public function show($id)
 	{

@@ -30,12 +30,14 @@ Route::get('{username}/following', 'UsersController@following');
 Route::get('/', 'UsersController@index');
 Route::get('/home', 'HomeController@index');
 Route::post('/tweet', 'TweetsController@store');
+
 Route::post('/retweet', 'TweetsController@retweet');
 Route::post('/reply', 'TweetsController@reply');
 Route::post('/follow/{username}', 'FollowersController@store');
 Route::post('/unfollow/{username}', 'FollowersController@destroy');
 Route::get('/{username}', 'UsersController@show');
 
+Route::get('/promote/{tweet_id}', 'TweetsController@promote');
 
 //Route::get('/{something}', 'HomeController@unknown');
 

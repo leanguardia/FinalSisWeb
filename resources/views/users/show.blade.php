@@ -82,15 +82,13 @@
         <div id="tweets-panel">
             @foreach($tweets as $tweet)
                 <div class="panel panel-default">
-                    @if ($tweet->reply)
-                        <div class="panel-body">
-                            <text>{{$tweet->getRepliedTweet()->content}}</text>
-                        </div>
 
-                        <div class="barra"><a href="/{{$tweet->getRepliedTweet()->user->username}}">&nbsp;&nbsp;{{'@'.$tweet->getRepliedTweet()->user->username}}</a></div>
-                    @endif
                     <div class="panel-body">
+                        @if($tweet->promote)
+                        <b>PROMOTED:</b> {{ $tweet->content }}
+                        @else
                         <text>{{ $tweet->content }}</text>
+                        @endif
                     </div>
                     @if (!$tweet->tweet_id )
                         <div class="barra">&nbsp;&nbsp;{{ '@' . $tweet->user->username }}</div>
@@ -137,10 +135,20 @@
                                     <button type="submit" class="marg btn btn-default">{!!FA::icon('reply')!!}&nbsp;</button>
                                     {!!Form::close()!!}
                                 </div>
-
+          
                              </div>
 
                         </div>
+                    @endif
+                    @if (Auth::check())
+                        @if(!$tweet->promote)
+                            <div class="panel-footer">
+                                <div class="form-inline">
+                                     <a class="btn btn-default" href="/promote/{{$tweet->id}}">Promote</a>
+                                </div>
+                            </div>
+
+                        @endif
                     @endif
                 </div>
             @endforeach

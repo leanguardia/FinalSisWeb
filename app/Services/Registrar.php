@@ -20,6 +20,7 @@ class Registrar implements RegistrarContract {
 			'email' => 'required|email|max:255|unique:users',
             'username' => 'required|max:50|unique:users',
 			'password' => 'required|confirmed|min:6',
+			'country_id' => '',
 		]);
 	}
 
@@ -37,6 +38,7 @@ class Registrar implements RegistrarContract {
             'last_name' => $data['last_name'],
             'username' => $data['username'],
 			'password' => bcrypt($data['password']),
+			'country_id' =>  $data['country_id'],
 		]);
         $user = User::where('username', $data['username'])->first();
         Tweet::create(['user_id' => $user->id, 'content' => 'I joined tweeter.', 'reply' => false]);

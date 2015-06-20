@@ -18,6 +18,7 @@
 						</div>
 					@endif
 
+                
 					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
@@ -80,11 +81,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label">Username</label>
+                            <label class="col-md-4 control-label">User Name</label>
                             <div class="col-md-6">
                                 <input type="username" class="form-control" name="username" value="{{ old('username') }}">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Country</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="country_id" value="{{ old('country') }}">
+                                    <option name="country_id" value="1">Bolivia</option>
+                                    <option name="country_id" value="2">Germany</option>
+                                    <option name="country_id" value="3">USA</option>
+                                </select>
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">E-Mail Address</label>

@@ -14,8 +14,34 @@
         </div>
 		<div class="col-md-10 col-md-offset-1">
 
+                    <div class="col-md-4">
+                        <br/>
+                        <div class="panel panel-heading">
+                            Promotions
+                        </div>
+                        @foreach($proms as $prom)
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <text><b>Promoted: </b>{{ $prom->content }}</text>
+                                </div>
+                                <div class="barra">&nbsp;&nbsp;<a href="/{{$prom->user->username}}">{{ '@' . $prom->user->username }}</a></div>
+                                @if (Auth::check() && Auth::id() != $prom->user_id)
+                                    @if  (!$prom->hasLikeFrom(Auth::id()))
+                                        {!! Form::open(['url'=>'likes']) !!}
+                                        {!! Form::hidden('prom_id',$prom->id) !!}
+                                        {!! Form::hidden('user_id',Auth::user()->id) !!}
+                                        <button type="submit" class="marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$prom->likes->count() }}</button>
+                                        {!! Form::close() !!}
+                                    @else
+                                        <button class="btn-like marg btn btn-default">{!!FA::icon('star')!!} &nbsp{{$prom->likes->count() }}</button>
+                                    @endif
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+
                 @if (Auth::check())
-                    <div class="col-md-6 contenTweets">
+                    <div class="col-md-4 contenTweets">
                         <br/>
                         <div class="panel panel-heading">
                             Tweets
