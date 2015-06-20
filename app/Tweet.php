@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tweet extends Model {
 
-    protected $fillable = ['content', 'user_id','tweet_id'];
+    protected $fillable = ['content', 'user_id','tweet_id','reply'];
 
     public function user()
     {
@@ -70,4 +70,36 @@ class Tweet extends Model {
         }
     }
 
+    public function getRepliedTweet()
+    {
+        return Tweet::find($this->tweet_id);
+    }
+
+    public function words()
+    {
+        $w = str_word_count($this->content, 1);
+        $words = array();
+        foreach ($w as $word) {
+            if (strlen($word)>=4)
+                array_push($words,$word);
+        }
+        return $words;
+    }
+
+    static function totalWords()
+    {
+        $words = array();
+        $tweets = Tweet::all();
+        foreach ($tweets as $tweet) {
+            $words = array_merge($words,$tweet->words());
+        }
+        return $words;
+    }
+
+    static function mostFrequent()
+    {
+        $words = array_count_values(Tweet::totalWords());
+        arsort($words);
+        return array_slice($words,0,5);
+    }
 }

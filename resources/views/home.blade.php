@@ -3,6 +3,15 @@
 
 <div class="container">
 	<div class="row">
+
+        <div class="panel panel-heading">
+            <h2>Most Frequent Words </h2>
+            <ul class="list-inline">
+                @foreach($words as $key => $value)
+                    <li>{{$mykey = $key}}</li>
+                @endforeach
+            </ul>
+        </div>
 		<div class="col-md-10 col-md-offset-1">
 
                 @if (Auth::check())
@@ -50,4 +59,5 @@
 		</div>
 	</div>
 </div>
+<br/>
 @endsection

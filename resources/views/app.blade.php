@@ -25,9 +25,6 @@
 
 	<![endif]-->
 
-    <!-- Scripts -->
-    {{--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>--}}
-    {{--<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>--}}
 </head>
 <body background="images/cloudback.jpg">
 	<nav class="navbar navbar-default nav-tweet">
@@ -39,7 +36,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/"  style="color: #FFFFFF;">Final Project</a>
+				<a class="navbar-brand" style="color: #FFFFFF;" href="/">Final Project</a>
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -48,26 +45,26 @@
                     <li><a href="/notifications"  style="color: #FFFFFF;">Notifications</a></li>
 				</ul>
 
-				<ul class="nav navbar-nav navbar-right">
-					@if (Auth::guest())
-					@else
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Auth::guest())
+                    @else
                         <li>
                             {!!Form::open(['url'=>'search','method'=>'get','class'=>'form-inline'])!!}
-                                {!!Form::text('text',null,['class'=>'form-control marg'])!!}
-                                <button typ="submit" class="btn btn-default">{!!FA::icon('search')!!}</button>
+                            {!!Form::text('text',null,['class'=>'form-control marg'])!!}
+                            <button typ="submit" class="btn btn-default">{!!FA::icon('search')!!}</button>
                             {!!Form::close()!!}
                         </li>
                         <li>&nbsp</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #FFFFFF;">{{ Auth::user()->username }} <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: #FFFFFF;">{{ Auth::user()->username }} <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
                                 <li><a href="/{{Auth::user()->username}}">User Page</a></li>
-								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-							</ul>
-						</li>
-					@endif
-				</ul>
-			</div>
+                                <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                </ul>
+            </div>
 		</div>
 	</nav>
 
