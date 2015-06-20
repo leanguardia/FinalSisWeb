@@ -17,6 +17,7 @@ class CreateTweetsTable extends Migration {
 			$table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('tweet_id')->nullable();
+            $table->boolean('reply')->nullable();
             $table->text('content');
 			$table->timestamps();
 		});
