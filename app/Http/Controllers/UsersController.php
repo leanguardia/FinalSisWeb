@@ -18,7 +18,8 @@ class UsersController extends Controller {
 	{
 		if(Auth::check()){
             $user = Auth::user();
-            return view('users.show')->with(['user' => $user, 'tweets' => $user->tweets]);
+            $tweets = $user->tweets()->get()->reverse();
+            return view('users.show')->with(['user' => $user, 'tweets' => $tweets]);
         }
         else{
             return view('auth.login');
