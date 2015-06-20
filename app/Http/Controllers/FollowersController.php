@@ -81,9 +81,12 @@ class FollowersController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		//
-	}
+    public function destroy($username, Request $request)
+    {
+        $input = $request::all();
+        Followers::where('follower', (string)$input['follower'])->where('user_id', (string)$input['user_id'])->first()->delete();
+        Following::where('following', (string)$input['user_id'])->where('user_id', (string)$input['follower'])->first()->delete();
+        return redirect('/'.$username);
+    }
 
 }

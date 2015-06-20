@@ -32,6 +32,7 @@ Route::post('/tweet', 'TweetsController@store');
 Route::post('/retweet', 'TweetsController@retweet');
 Route::post('/reply', 'TweetsController@reply');
 Route::post('/follow/{username}', 'FollowersController@store');
+Route::post('/unfollow/{username}', 'FollowersController@destroy');
 Route::get('/{username}', 'UsersController@show');
 
 

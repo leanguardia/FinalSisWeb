@@ -127,19 +127,46 @@
     </div>
 
     <div class="col-md-1" class="pad20">
-        <div id="follow-form">
+
             @if(Auth::check() && Auth::id() != $user->id && !Auth::user()->following()->where('following', $user->id)->first() )
-                {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
-                {!! Form::hidden('follower', Auth::id()) !!}
-                {!! Form::hidden('user_id', $user->id) !!}
-                <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
-                {!! Form::close() !!}
+                <div id="follow-form">
+                    {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
+                    {!! Form::hidden('follower', Auth::id()) !!}
+                    {!! Form::hidden('user_id', $user->id) !!}
+                    <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
+                    {!! Form::close() !!}
+                </div>
+
+                <div id="unfollow-form" style="display: none">
+                    {!! Form::open([ 'url' => '/unfollow/' . $user->username ]) !!}
+                    {!! Form::hidden('follower', Auth::id()) !!}
+                    {!! Form::hidden('user_id', $user->id) !!}
+                    <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Unfollow</button>
+                    {!! Form::close() !!}
+                </div>
+            @else
+                <div id="follow-form" style="display: none">
+                    {!! Form::open([ 'url' => '/follow/' . $user->username ]) !!}
+                    {!! Form::hidden('follower', Auth::id()) !!}
+                    {!! Form::hidden('user_id', $user->id) !!}
+                    <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Follow</button>
+                    {!! Form::close() !!}
+                </div>
+
+                <div id="unfollow-form">
+                    {!! Form::open([ 'url' => '/unfollow/' . $user->username ]) !!}
+                    {!! Form::hidden('follower', Auth::id()) !!}
+                    {!! Form::hidden('user_id', $user->id) !!}
+                    <button type="submit" class="btn btn-lg btn-default" id="follow-button"><i class="fa fa-user"></i>&nbsp;&nbsp;Unfollow</button>
+                    {!! Form::close() !!}
+                </div>
             @endif
-                <a href="/{{$user->username}}/followers" class="btn btn-lg btn-default">Followers</a>
-                <a href="/{{$user->username}}/following" class="btn btn-lg btn-default">Following</a>
-        </div>
+
     </div>
-    <div class="col-md-2"></div>
+    <div class="col-md-2">
+        <a href="/{{$user->username}}/followers" class="btn btn-lg btn-default">Followers</a>
+        <a href="/{{$user->username}}/following" class="btn btn-lg btn-default">Following</a>
+    </div>
     <div class="col-md-1">
         <script type="text/javascript">
 
@@ -183,8 +210,26 @@
                         data : { follower : follower, user_id : user_id },
                         success: function(msg){
                             $('#follow-button').css('display', 'none');
+                            $('#unfollow-form').css('display', 'block');
                             var obj = $('#followers-count');
                             obj.text((parseInt(obj.text()) + 1));
+                        }
+                    });
+                });
+
+                $('#unfollow-form').on('submit', function(e){
+                    e.preventDefault();
+                    var follower = $(this).find('input[name=follower]').val();
+                    var user_id = $(this).find('input[name=user_id]').val();
+                    $.ajax({
+                        type : 'POST',
+                        url : '/unfollow/' + '{{ $user->username }}',
+                        data : { follower : follower, user_id : user_id },
+                        success: function(msg){
+                            $('#follow-button').css('display', 'block');
+                            $('#unfollow-form').css('display', 'none');
+                            var obj = $('#followers-count');
+                            obj.text((parseInt(obj.text()) - 1));
                         }
                     });
                 });
