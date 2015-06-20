@@ -5,7 +5,7 @@ use App\Tweet;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
-use Illuminate\Http\Request;
+use Request;
 
 class UsersController extends Controller {
 
@@ -31,6 +31,18 @@ class UsersController extends Controller {
         $tweets = Auth::user()->tweets;
 
         return view('notifications.show')->with(['tweets' => $tweets]);
+    }
+
+    public function saveimage(Request $request){
+        if($request->file('image')->isValid()){
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileName = Auth::user()->username;
+            $request->file('image')->move("/profilepictures/".$fileName);
+            $user = User::find(Auth::id());
+            $user->picture = true;
+            $user->save();
+        }
+        return redirect('/');
     }
 
 	public function show($username)

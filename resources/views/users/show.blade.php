@@ -2,29 +2,50 @@
 @section('content')
 
     <div class="col-md-1">
+
     </div>
-    <div class="col-md-3 profile-box" style="height: 140px; background-color: rgba(0, 131, 179, 0.48); border-radius: 9px; border: solid; overflow: hidden; border-color: #b7c2d6">
-        <h3>{{ $user->name . ' ' . $user->last_name }}</h3>
-        <h4><a href="/{{ $user->username }}">{{ '@' . $user->username }}</a></h4>
-        <div class="row" style="background-color: #f3f3f3; padding: 5px;">
-            <div class="col-md-2">
-                TWEETS
-                <br>
-                <strong style="color: #0083b3" ><p id="tweet-count">{{ $tweets->count() }}</p></strong>
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-2">
-                FOLLOWING
-                <br>
-                <strong style="color: #0083b3" ><p id="following-count">{{ $user->following->count() }}</p></strong>
-            </div>
-            <div class="col-md-2"></div>
-            <div class="col-md-3">
-                FOLLOWERS
-                <br>
-                <strong style="color: #0083b3" ><p id="followers-count">{{ $user->followers->count() }}</p></strong>
+
+    <div class="col-md-3" >
+        <div class="profile-box" style="height: 140px; background-color: rgba(0, 131, 179, 0.48); border-radius: 9px; border: solid; overflow: hidden; border-color: #b7c2d6">
+            <h3>{{ $user->name . ' ' . $user->last_name }}</h3>
+            <h4><a href="/{{ $user->username }}">{{ '@' . $user->username }}</a></h4>
+            <div class="row" style="background-color: #f3f3f3; padding: 5px;">
+                <div class="col-md-2">
+                    TWEETS
+                    <br>
+                    <strong style="color: #0083b3" ><p id="tweet-count">{{ $tweets->count() }}</p></strong>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    FOLLOWING
+                    <br>
+                    <strong style="color: #0083b3" ><p id="following-count">{{ $user->following->count() }}</p></strong>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-3">
+                    FOLLOWERS
+                    <br>
+                    <strong style="color: #0083b3" ><p id="followers-count">{{ $user->followers->count() }}</p></strong>
+                </div>
             </div>
         </div>
+
+        {{--<div style="top:200px;">--}}
+            {{--@if(!$user->picture)--}}
+                {{--{!! Form::open(['url'=>'/image', 'files'=>true ]) !!}--}}
+                {{--<br>--}}
+                {{--{!! Form::label('name','Profile picture:', ['class' => 'form-control']) !!}--}}
+                {{--{!! Form::file('image', ['class' => 'form-control']) !!}--}}
+
+                {{--<br>--}}
+                {{--<br>--}}
+                {{--{!! Form::submit('Save image', ['class' => 'btn btn-primary form-control']) !!}--}}
+                {{--{!! Form::close() !!}--}}
+            {{--@else--}}
+                {{--<img src="{{ '/profilepictures/' . $user->username . '.jpg' }}" alt="">--}}
+            {{--@endif--}}
+        {{--</div>--}}
+
     </div>
 
     {{--<div class="col-md-1">--}}

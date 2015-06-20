@@ -10,13 +10,14 @@ class HomeController extends Controller {
 	public function index()
 	{
         $users = User::all();
+        $user = user::all()->first();
         $words = Tweet::mostFrequent();
         if (Auth::check()) {
             $tweets = Auth::user()->ownTweetsAndFollowed();
             return view('home',compact('users','tweets','words'));
         }
         else {
-            return view('home',compact('users','words'));
+            return view('home',compact('users','words','user'));
         }
 	}
 

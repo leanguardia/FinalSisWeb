@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function()
 Route::get('/search','SearchsController@results');
 Route::resource('likes','LikesController',['only' => ['store', 'destroy']]);
 
+Route::post('/image', 'UsersController@saveimage');
 Route::get('/notifications', 'UsersController@notifications');
 Route::get('{username}/followers', 'UsersController@followers');
 Route::get('{username}/following', 'UsersController@following');
