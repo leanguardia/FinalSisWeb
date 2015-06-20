@@ -128,7 +128,6 @@
                     e.preventDefault();
                     var content = $('#tweetfield').val();
                     var user_id = $(this).find('input[name=user_id]').val();
-                    alert(content);
                     if(content.length <= 140){
                         if(content.length > 0){
                             $.ajax({
